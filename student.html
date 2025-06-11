@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Page</title>
+</head>
+<body>
+  <h1>Student Page</h1>
+  <button onclick="attend()">Attend</button>
+  <p id="status"></p>
+
+  <script>
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      // Haversine formula to calculate distance in meters
+      const R = 6371e3; // meters
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+      return R * c; // distance in meters
+    }
+
+    function attend() {
+      const teacherData = localStorage.getItem("teacher_location");
+      if (!teacherData) {
+        alert("Teacher has not started attendance yet!");
+        return;
+      }
+
+      const teacherLocation = JSON.parse(teacherData);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const studentLat = position.coords.latitude;
+          const studentLon = position.coords.longitude;
+
+          const distance = calculateDistance(
+            studentLat, studentLon,
+            teacherLocation.latitude, teacherLocation.longitude
+          );
+
+          if (distance <= 100) {
+            document.getElementById("status").innerText = 
+              `✅ Attendance Done. Distance from teacher: ${distance.toFixed(2)} meters.`;
+          } else {
+            document.getElementById("status").innerText = 
+              `❌ You are too far! (${distance.toFixed(2)} meters away).`;
+          }
+
+        }, function(error) {
+          alert("Error getting your location: " + error.message);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  </script>
+</body>
+</html>
