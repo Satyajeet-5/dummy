@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teacher Page</title>
+</head>
+<body>
+  <h1>Teacher Page</h1>
+  <button onclick="getTeacherLocation()">Teacher Start</button>
+  <button onclick="startAttendance()">Attendance Start</button>
+  <p id="status"></p>
+
+  <script>
+    let teacherLocation = null;
+
+    function getTeacherLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          teacherLocation = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
+          document.getElementById("status").innerText = 
+            `Teacher Location:\nLat: ${teacherLocation.latitude}\nLong: ${teacherLocation.longitude}`;
+        }, function(error) {
+          alert("Error getting location: " + error.message);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function startAttendance() {
+      if (!teacherLocation) {
+        alert("Please click Teacher Start first.");
+        return;
+      }
+      // Store in localStorage
+      localStorage.setItem("teacher_location", JSON.stringify(teacherLocation));
+      alert("Attendance session started. Location saved.");
+    }
+  </script>
+</body>
+</html>
