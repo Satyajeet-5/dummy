@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Select Role</title>
+  <title>Unload Counter</title>
 </head>
 <body>
-  <h1>Select Your Role</h1>
-  <button onclick="goToTeacher()">I'm a Teacher</button>
-  <button onclick="goToStudent()">I'm a Student</button>
+  <h1>Page Reload/Navigate Counter</h1>
+  <p>You have left or reloaded this page <span id="count">0</span> times.</p>
 
   <script>
-    function goToTeacher() {
-      window.location.href = "teacher.html";
-    }
+    // Read the current count from localStorage (or default to 0)
+    let count = parseInt(localStorage.getItem('pageLeaveCount')) || 0;
 
-    function goToStudent() {
-      window.location.href = "student.html";
-    }
+    // Show the current count in the HTML
+    document.getElementById('count').textContent = count;
+
+    // Add event listener to increment the count on unload
+    window.addEventListener('beforeunload', function () {
+      count += 1;
+      localStorage.setItem('pageLeaveCount', count);
+    });
   </script>
 </body>
 </html>
