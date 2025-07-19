@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Unload Counter</title>
+    <title>Redirect Buttons</title>
 </head>
 <body>
-  <h1>Page Reload/Navigate Counter</h1>
-  <p>You have left or reloaded this page <span id="count">0</span> times.</p>
 
-  <script>
-    // Read the current count from localStorage (or default to 0)
-    let count = parseInt(localStorage.getItem('pageLeaveCount')) || 0;
+    <button onclick="window.location.href='student.html';" style="font-size: 24px; padding: 15px 40px; margin: 10px;">
+        Go to Student Page
+    </button>
 
-    // Show the current count in the HTML
-    document.getElementById('count').textContent = count;
+    <button onclick="window.location.href='teacher.html';" style="font-size: 24px; padding: 15px 40px; margin: 10px;">
+        Go to Teacher Page
+    </button>
 
-    // Add event listener to increment the count on unload
-    window.addEventListener('beforeunload', function () {
-      count += 1;
-      localStorage.setItem('pageLeaveCount', count);
-    });
-  </script>
 </body>
 </html>
