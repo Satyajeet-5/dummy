@@ -1,6 +1,7 @@
 name: Run Python Hello World
 
 on:
+  workflow_dispatch: 
   push:
   pull_request:
 
