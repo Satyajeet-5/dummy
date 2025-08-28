@@ -1,4 +1,4 @@
-name: Run Python Hello World
+name:run
 
 on:
   workflow_dispatch: 
